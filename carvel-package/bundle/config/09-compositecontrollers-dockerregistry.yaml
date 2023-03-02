@@ -2,12 +2,12 @@
 apiVersion: metacontroller.k8s.io/v1alpha1
 kind: CompositeController
 metadata:
-  name: imageregistry.fat-controller.test
+  name: dockerregistry.fat-controller.test
 spec:
   generateSelector: true
   parentResource:
     apiVersion: fat-controller.test/v1alpha1
-    resource: imageregistries
+    resource: dockerregistries
   childResources:
   - apiVersion: apps/v1
     resource: deployments
@@ -32,4 +32,4 @@ spec:
   hooks:
     sync:
       webhook:
-        url: http://operator-toolkit.fat-controller:8080/docker-registry/imageregistry/sync
+        url: http://operator-toolkit.fat-controller:8080/docker-registry/dockerregistry/sync
