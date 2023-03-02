@@ -6,6 +6,7 @@ package bridge
 
 import (
 	"bytes"
+	"crypto/rand"
 	"fmt"
 	"io"
 	"log"
@@ -120,7 +121,22 @@ func (br YttBridge) ExecuteCommand(bre YttBridgeEndpoint, brr YttBridgeRequest) 
 
 	filesToProcess = append(filesToProcess, bodyInputFile)
 
-	fileMarks := []string{"__body__.yaml:type=data"}
+	randomData := make([]byte, 1024)
+
+	_, err := rand.Read(randomData)
+
+	if err != nil {
+		return []byte{}, fmt.Errorf("failed to generate random data ytt: %s", err)
+	}
+
+	randomInputFile := files.MustNewFileFromSource(files.NewBytesSource("__random__.dat", randomData))
+
+	filesToProcess = append(filesToProcess, randomInputFile)
+
+	fileMarks := []string{
+		"__body__.yaml:type=data",
+		"__random__.dat:type=data",
+	}
 
 	templatingOptions.FileMarksOpts.FileMarks = fileMarks
 
