@@ -37,5 +37,11 @@ prune-images:
 prune-docker:
 	docker system prune --force
 
+deploy-cluster:
+	ytt --file carvel-package/bundle/config | kapp deploy -a fat-controller -f - -y
+
+delete-cluster:
+	kapp delete -a fat-controller -y
+
 clean:
 	-rm -f mc-ytt-bridge/mc-ytt-bridge

@@ -1,0 +1,10 @@
+---
+apiVersion: imgpkg.carvel.dev/v1alpha1
+kind: Bundle
+metadata:
+  name: fat-controller
+authors:
+- name: Graham Dumpleton
+  email: Graham.Dumpleton@gmail.com
+websites:
+- url: github.com/GrahamDumpleton/fat-controller

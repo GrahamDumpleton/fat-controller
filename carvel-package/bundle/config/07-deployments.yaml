@@ -1,0 +1,35 @@
+#@ load("@ytt:data", "data")
+#@ load("/00-package.star", "image_reference", "image_pull_policy")
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fat-controller
+  namespace: #@ data.values.operator.namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: fat-controller
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        deployment: fat-controller
+    spec:
+      serviceAccountName: fat-controller
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+      containers:
+      - name: operator
+        #@ image = image_reference("mc-ytt-bridge")
+        image: #@ image
+        imagePullPolicy: #@ image_pull_policy(image)
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]

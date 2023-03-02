@@ -1,0 +1,15 @@
+#@data/values-schema
+---
+
+version: "latest"
+
+operator:
+  namespace: "fat-controller"
+
+imageVersions:
+- name: ""
+  image: ""
+
+imageRegistry:
+  host: ""
+  namespace: ""
