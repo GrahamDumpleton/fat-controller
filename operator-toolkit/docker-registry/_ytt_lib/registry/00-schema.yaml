@@ -1,0 +1,23 @@
+#@data/values-schema
+
+---
+apiVersion: ""
+kind: ""
+
+#@schema/type any=True
+metadata:
+  name: ""
+  uid: ""
+
+spec:
+  ingress:
+    host: ""
+    secretRef:
+      name: ""
+  resources:
+    memory: "768Mi"
+    cpu: "250m"
+    storage: "10Gi"
+
+#@schema/type any=True
+status: null

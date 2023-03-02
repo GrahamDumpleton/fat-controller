@@ -1,0 +1,34 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.spec.ingress.host:
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: #@ "registry-{}".format(data.values.metadata.name)
+  namespace: #@ data.values.metadata.namespace
+  #@ if data.values.spec.ingress.secretRef.name:
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  #@ end
+spec:
+  rules:
+  - host: #@ data.values.spec.ingress.host
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: #@ "registry-{}".format(data.values.metadata.name)
+            port: 
+              number: 5000
+  #@ if data.values.spec.ingress.secretRef.name:
+  tls:
+    - hosts:
+      - #@ data.values.spec.ingress.host
+      secretName: #@ data.values.spec.ingress.secretRef.name
+  #@ end
+#@ end

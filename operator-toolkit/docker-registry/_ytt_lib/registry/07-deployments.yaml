@@ -1,0 +1,50 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: #@ "registry-{}".format(data.values.metadata.name)
+  namespace: #@ data.values.metadata.namespace
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: #@ "registry-{}".format(data.values.metadata.name)
+  template:
+    metadata:
+      labels:
+        app: #@ "registry-{}".format(data.values.metadata.name)
+    spec:
+      serviceAccountName: #@ "registry-{}".format(data.values.metadata.name)
+      automountServiceAccountToken: false
+      containers:
+      - name: registry
+        image: registry:2.8.1
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+          runAsNonRoot: true
+          runAsUser: 1000
+        resources:
+          limits:
+            memory: #@ data.values.spec.resources.memory
+            cpu: #@ data.values.spec.resources.cpu
+        ports:
+        - protocol: TCP
+          containerPort: 5000
+        env:
+        - name: REGISTRY_HTTP_ADDR
+          value: "0.0.0.0:5000"
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
+        volumeMounts:
+        - name: registry-data
+          mountPath: /var/lib/registry
+      volumes:
+      - name: registry-data
+        persistentVolumeClaim:
+          claimName: #@ "registry-{}".format(data.values.metadata.name)

@@ -12,7 +12,7 @@ FROM alpine:3.16.0
 
 COPY --from=builder /app/mc-ytt-bridge /app/mc-ytt-bridge
 
-COPY mc-ytt-bridge/test/handlers /app/handlers
+COPY operator-toolkit /app/handlers
 
 EXPOSE 8080
 
