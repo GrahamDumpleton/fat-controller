@@ -1,0 +1,9 @@
+---
+apiVersion: fat-controller.test/v1alpha1
+kind: DockerRegistry
+metadata:
+  name: images1
+  namespace: default
+spec:
+  ingress:
+    host: images1.fat-controller.test
