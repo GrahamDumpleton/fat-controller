@@ -5,21 +5,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fat-controller
+  name: operator-toolkit
   namespace: #@ data.values.operator.namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      deployment: fat-controller
+      deployment: operator-toolkit
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        deployment: fat-controller
+        deployment: operator-toolkit
     spec:
-      serviceAccountName: fat-controller
+      serviceAccountName: operator-toolkit
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
