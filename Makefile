@@ -1,14 +1,12 @@
 IMAGE_REPOSITORY = localhost:5001
 IMAGE_VERSION = latest
 
-.PHONY: test
+all: build-local
 
-all: build
-
-build:
+build-local:
 	cd mc-ytt-bridge && go build -o mc-ytt-bridge main.go
 
-run:
+run-local:
 	cd mc-ytt-bridge && go run main.go serve --handlers test/handlers --config test/config.yaml
 
 test: unit-tests
