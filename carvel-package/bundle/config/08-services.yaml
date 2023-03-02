@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fat-controller
+  namespace: #@ data.values.operator.namespace
+spec:
+  selector:
+    deployment: fat-controller
+  ports:
+  #! - port: 8443
+  - port: 8080
