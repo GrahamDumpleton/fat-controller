@@ -1,0 +1,15 @@
+#@ load("@ytt:base64", "base64")
+#@ load("/functions.star", "xgetattr")
+
+#@ def new_generic_login_secret(parent, name, namespace, data):
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: #@ namespace
+  name: #@ name
+  annotations:
+    fat-controller.test/source-rule: #@ "{}/{}".format(parent.kind.lower(), parent.metadata.name)
+  labels: #@ xgetattr(parent, "spec.targetSecret.labels", {})
+type: Opaque
+data: #@ data
+#@ end

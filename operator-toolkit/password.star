@@ -33,13 +33,13 @@ def _generate(value="[:passwd:]{16}"):
     found = False
 
     for name, charset in patterns.items():
-      pattern = "\\[:%s:\\]{([0-9]+)}" % name
+      pattern = "^.*?(\\[:%s:\\]({([0-9]+)})?).*$" % name
       if regexp.match(pattern, value):
-        matches = regexp.replace("^.*?({}).*$".format(pattern), value, "$1 $2")
+        matches = regexp.replace(pattern, value, "$1 $3")
         if matches != value:
           found = True
           text, count = matches.split(" ")
-          replacement = "".join([random.choice(charset) for _ in range(int(count))])
+          replacement = "".join([random.choice(charset) for _ in range(int(count or "1"))])
           value = value.replace(text, replacement, 1)
           break
         end

@@ -1,0 +1,19 @@
+---
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: CompositeController
+metadata:
+  name: genericlogin.fat-controller.test
+spec:
+  generateSelector: true
+  parentResource:
+    apiVersion: fat-controller.test/v1alpha1
+    resource: genericlogins
+  childResources:
+  - apiVersion: v1
+    resource: secrets
+    updateStrategy:
+      method: InPlace
+  hooks:
+    sync:
+      webhook:
+        url: http://operator-toolkit.fat-controller:8080/secrets-manager/genericlogin/sync

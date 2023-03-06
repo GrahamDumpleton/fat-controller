@@ -1,7 +1,7 @@
 load("/functions.star", "xgetattr")
 load("/selectors.star", "selectors")
 
-load("secret.lib.yaml", "generate_secret")
+load("secretcopier.lib.yaml", "generate_secret")
 
 # Returns rules for metacontroller that match resources we are interested in for
 # the supplied custom resource instance.

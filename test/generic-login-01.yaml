@@ -1,0 +1,23 @@
+---
+apiVersion: fat-controller.test/v1alpha1
+kind: GenericLogin
+metadata:
+  name: password1
+  namespace: default
+spec:
+  credentials:
+    username: me@example.com
+    password:
+      length: 32
+      digits:
+        minimum: 4
+      lowercase:
+        minimum: 4
+      uppercase:
+        minimum: 4
+      symbols:
+        minimum: 4
+        charset: "!#%+:=?@"
+  targetSecret:
+    labels:
+      a: b
